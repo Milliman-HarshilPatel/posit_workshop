@@ -1,0 +1,57 @@
+---
+title: "posit_workshop"
+format: html
+editor: visual
+---
+
+## Packages 
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+```
+
+## Data Import
+```{r}
+claims <- read_csv("claims.csv")
+claims
+```
+
+## Data Cleaning
+```{r}
+claims_clean <- claims %>%
+ filter(STATUS1 %in% "BILLED") %>%
+ filter(STATUS2 %in% "BILLED" | is.na(STATUS2)) %>%
+ filter(STATUSP %in% 
+ "BILLED")
+```
+
+## Data Exploration
+```{r}
+ggplot(claims) +
+  aes(x = DEPARTMENTID) +
+  geom_histogram(bins = 30L, fill = "#112446") +
+  theme_minimal()
+```
+
+```{r}
+test <- claims %>%
+ filter(SERVICEDATE >= "2016-01-01 00:00:00" & SERVICEDATE <= "2040-01-01 00:00:00") %>%
+ ggplot() +
+  aes(x = SERVICEDATE, colour = DEPARTMENTID) +
+  geom_histogram(bins = 30L, fill = "#112446") +
+  scale_color_gradient() +
+  theme_minimal()
+
+ggplotly(test)
+
+```
+
+
+## Data Analysis
+```{r}
+
+```
+
+
